@@ -10,8 +10,8 @@ import {HousingService} from '../housing.service';
   template: `
     <section>
       <form>
-      <input type="text" placeholder="Filter by city" #filter>
-      <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
+        <input type="text" placeholder="Filter by city" #filter />
+        <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
       </form>
     </section>
     <section class="results">
@@ -28,8 +28,10 @@ export class HomeComponent {
   housingService: HousingService = inject(HousingService);
   filteredLocationList: HousingLocation[] = [];
   constructor() {
-    this.housingLocationList = this.housingService.getAllHousingLocations();
-    this.filteredLocationList = this.housingLocationList;
+    this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
+      this.housingLocationList = housingLocationList;
+      this.filteredLocationList = housingLocationList;
+    });
   }
   filterResults(text: string) {
     if (!text) {
